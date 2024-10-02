@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup Form</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        * { padding: 0; margin: 0; box-sizing: border-box; }
+        body { background-color: #080710; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Poppins', sans-serif; }
+        .background { width: 430px; height: 520px; position: absolute; }
+        .background .shape { height: 200px; width: 200px; border-radius: 50%; position: absolute; } /* Changed to circle */
+        .shape:first-child { background: linear-gradient(#1845ad, #23a2f6); left: -80px; top: -80px; }
+        .shape:last-child { background: linear-gradient(to right, #ff512f, #f09819); right: -30px; bottom: -80px; }
+
+        /* Flip Animation Container */
+        .flip-card {
+            background-color: transparent;
+            width: 400px;
+            height: 520px;
+            perspective: 1000px;
+            position: relative;
+        }
+        .flip-card {
+            color: #e5e5e5;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .flip-card.flip .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            padding: 50px 35px;
+            background-color: rgba(255, 255, 255, 0.13);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Input Fields */
+        .input-container {
+            position: relative;
+            margin-top: 20px;
+        }
+        .input-container i {
+            position: absolute;
+            left: 10px;
+            top: 15px;
+            color: #aaa; /* Icon color */
+        }
+        input {
+            display: block;
+            height: 50px;
+            width: 100%;
+            padding-left: 40px; /* Space for icon */
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 3px;
+            font-size: 14px;
+            font-weight: 300;
+            margin-top: 10px;
+            border: 1px solid white; /* Default border color set to white */
+            transition: border 0.3s ease; /* Transition for input */
+        }
+        input:focus {
+            outline: none; /* Remove default focus outline */
+            border: 1px solid #23a2f6; /* Highlight border color */
+        }
+        ::placeholder { color: #e5e5e5; }
+
+        /* Buttons */
+        button {
+            margin-top: 30px;
+            width: 100%;
+            background-color: #ffffff;
+            color: #080710;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Transition for button */
+        }
+        button:hover {
+            background-color: #f09819;
+            color: #ffffff;
+            transform: scale(1.05); /* Slightly grow the button */
+        }
+
+        /* Social Buttons */
+        .social {
+            margin-top: 33px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .social div {
+            width: 48%;
+            border-radius: 3px;
+            padding: 10px;
+            background-color: rgba(255,255,255,0.27);
+            color: #eaf0fb;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Transition for social buttons */
+        }
+        .social div:hover { background-color: rgba(255,255,255,0.47); }
+
+        /* Toggle Link */
+        .toggle-link { text-align: center; margin-top: 10px; color: #fff; }
+        .toggle-link a { color: #23a2f6; text-decoration: none; font-weight: 600; cursor: pointer; }
+
+        /* Error styling */
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none; /* Hidden by default */
+            transition: opacity 0.3s ease; /* Smooth error message */
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 480px) {
+            .flip-card {
+                width: 90%; /* Adjust width on smaller screens */
+            }
+            form h3 {
+                font-size: 24px; /* Smaller font size for heading */
+            }
+            button {
+                font-size: 16px; /* Smaller button font size */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <!-- Front Side: Login Form -->
+            <div class="flip-card-front">
+                <form id="loginForm">
+                    <h3>Sign In Here</h3> <!-- Changed to Sign In -->
+                    <div class="input-container">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Username" id="username" required>
+                    </div>
+                    <div class="input-container">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Password" id="password" required>
+                    </div>
+                    <span class="error" id="loginError">Please fill in both fields.</span>
+                    <button type="button" onclick="validateLogin()">Sign In</button> <!-- Changed to Sign In -->
+                    <div class="social">
+                        <div class="go"><i class="fab fa-google"></i> Google</div>
+                        <div class="fb"><i class="fab fa-facebook"></i> Facebook</div>
+                    </div>
+                    <div class="toggle-link">
+                        Don't have an account? <a onclick="toggleFlip()">Sign up</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Back Side: Signup Form -->
+            <div class="flip-card-back">
+                <form id="signupForm">
+                    <h3>Sign Up Here</h3>
+                    <div class="input-container">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Username" id="signup-username" required>
+                    </div>
+                    <div class="input-container">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Password" id="signup-password" required>
+                    </div>
+                    <div class="input-container">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Confirm Password" id="signup-confirm-password" required>
+                    </div>
+                    <span class="error" id="signupError">Please fill all fields and ensure passwords match.</span>
+                    <button type="button" onclick="validateSignup()">Sign Up</button>
+                    <div class="social">
+                        <div class="go"><i class="fab fa-google"></i> Google</div>
+                        <div class="fb"><i class="fab fa-facebook"></i> Facebook</div>
+                    </div>
+                    <div class="toggle-link">
+                        Already have an account? <a onclick="toggleFlip()">Log in</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between login and signup forms
+        function toggleFlip() {
+            var card = document.querySelector('.flip-card');
+            card.classList.toggle('flip');
+        }
+
+        // Login form validation
+        function validateLogin() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var loginError = document.getElementById('loginError');
+            if (username === "" || password === "") {
+                loginError.style.display = "block";
+            } else {
+                loginError.style.display = "none";
+                // Add login logic here
+                alert("Login successful!"); // Placeholder
+            }
+        }
+
+        // Signup form validation
+        function validateSignup() {
+            var username = document.getElementById('signup-username').value;
+            var password = document.getElementById('signup-password').value;
+            var confirmPassword = document.getElementById('signup-confirm-password').value;
+            var signupError = document.getElementById('signupError');
+            if (username === "" || password === "" || confirmPassword === "" || password !== confirmPassword) {
+                signupError.style.display = "block";
+            } else {
+                signupError.style.display = "none";
+                // Add signup logic here
+                alert("Signup successful!"); // Placeholder
+            }
+        }
+    </script>
+</body>
+</html>
